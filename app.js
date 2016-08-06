@@ -3,18 +3,19 @@ var fs = require('fs');
 var commandLineArgs = require('command-line-args');
 var _ = require('lodash');
 
-var originPath = './origin';
-var destPath = 'C:/Users/Giovanni/Desktop/destino';
-
 
 var optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
-  { name: 'hlg', type: Boolean },
+  { name: 'prd', type: Boolean },
   { name: 'include', alias: 'i' , type: String, multiple: true, defaultOption: true },
   { name: 'exclude', alias: 'e' , type: String, multiple: true, defaultOption: false }
 ];
 
-var args = _.assignIn({ 'include': [], 'exclude': [] }, commandLineArgs(optionDefinitions));
+var args = _.assignIn({ 'include': [], 'exclude': [], prd: false  }, commandLineArgs(optionDefinitions));
+
+var originPath = './origin';
+var destPath = args.prd ? 'C:/Users/Giovanni/Desktop/destino' : ''C:/Users/Giovanni/Desktop/destino'';
+
 
 function doCopy(destination) {
 	ncp(originPath, destination, function (err) {

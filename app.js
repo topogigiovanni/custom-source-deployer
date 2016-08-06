@@ -14,7 +14,7 @@ var optionDefinitions = [
 var args = _.assignIn({ 'include': [], 'exclude': [], prd: false  }, commandLineArgs(optionDefinitions));
 
 var originPath = './origin';
-var destPath = args.prd ? 'C:/Users/Giovanni/Desktop/destino' : ''C:/Users/Giovanni/Desktop/destino'';
+var destPath = args.prd ? 'C:/Users/Giovanni/Desktop/destino' : 'C:/Users/Giovanni/Desktop/destino';
 
 
 function doCopy(destination) {

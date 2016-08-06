@@ -1,3 +1,4 @@
+// vars
 var ncp = require('ncp').ncp;
 var fs = require('fs');
 var commandLineArgs = require('command-line-args');
@@ -10,13 +11,18 @@ var optionDefinitions = [
   { name: 'include', alias: 'i' , type: String, multiple: true, defaultOption: true },
   { name: 'exclude', alias: 'e' , type: String, multiple: true, defaultOption: false }
 ];
-
-var args = _.assignIn({ 'include': [], 'exclude': [], prd: false  }, commandLineArgs(optionDefinitions));
+var baseArgs = { 
+	'include': [], 
+	'exclude': [], 
+	prd: false  
+};
+var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
 
 var originPath = './origin';
 var destPath = args.prd ? 'C:/Users/Giovanni/Desktop/destino' : 'C:/Users/Giovanni/Desktop/destino';
 
 
+// methods
 function doCopy(destination) {
 	ncp(originPath, destination, function (err) {
 	 if (err) {
@@ -40,6 +46,7 @@ function isValidItem(item) {
 		return true;
 	}
 };
+//
 
 console.log('args', args);
 

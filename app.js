@@ -28,7 +28,7 @@ var optionDefinitions = [
 var _baseArgs = { 
 	'include': [], 
 	'exclude': [], 
-	prd: false  
+	'prd': false  
 };
 var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
 

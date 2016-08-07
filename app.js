@@ -35,7 +35,7 @@ var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
 
 var originPath = appPaths.origin;
 var destPath = args.prd ? appPaths.prd : appPaths.hlg;
-
+//
 
 // methods
 function doCopy(destination) {
@@ -118,7 +118,7 @@ _prompt.get({
 	}
 	
     // yes or y typed ? otherwise abort
-    if (c!='y' && c!='yes' && c!='s' &&c!='sim'){
+    if (c!='y' && c!='yes' && c!='s' && c!='sim'){
         console.log('Cancelado');
         return;
     }

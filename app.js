@@ -66,7 +66,6 @@ function isValidItem(item) {
 	}
 };
 function start() {
-	
 	fs.readdir(destPath, function(err, items) {
 		//console.log('items', items, err);
 		if(!items){
@@ -83,7 +82,6 @@ function start() {
 
 		}
 	});
-
 };
 //
 

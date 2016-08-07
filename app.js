@@ -17,7 +17,7 @@ var fs = require('fs');
 var commandLineArgs = require('command-line-args');
 var _ = require('lodash');
 var appPaths = require('./path_config').path;
-
+var _prompt = require('prompt');
 
 var optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
@@ -28,7 +28,8 @@ var optionDefinitions = [
 var _baseArgs = { 
 	'include': [], 
 	'exclude': [], 
-	'prd': false  
+	'prd': false ,
+	'verbose': false
 };
 var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
 
@@ -64,24 +65,70 @@ function isValidItem(item) {
 		return true;
 	}
 };
+function start() {
+	
+	fs.readdir(destPath, function(err, items) {
+		//console.log('items', items, err);
+		if(!items){
+			console.log(err);
+			return;
+		}
+		for (var i=0; i < items.length; i++) {
+			var file = destPath + '/' + items[i];
+			//console.log("Start: " + file);
+			
+			if(isValidItem(items[i])){
+				doCopy(file);
+			}
+
+		}
+	});
+
+};
 //
 
-console.log('args', args);
 
 // logic
-fs.readdir(destPath, function(err, items) {
-	//console.log('items', items, err);
-	if(!items){
-		console.log(err);
+// user confirmation required!
+_prompt.start();
+
+// disable prefix message & colors
+_prompt.message = '';
+_prompt.delimiter = '';
+_prompt.colors = false;
+
+// wait for user confirmation
+_prompt.get({
+    properties: {
+        
+        // setup the dialog
+        confirm: {
+            // allow yes, no, y, n, YES, NO, Y, N as answer
+            pattern: /^(yes|no|y|n|s|sim|nao|não)$/gi,
+            description: 'Deseja executar a copia(s/n)?',
+            message: 'Digite s/n',
+            required: true,
+            default: 'n'
+        }
+    }
+}, function (err, result){
+    // transform to lower case
+    var c = result.confirm.toLowerCase();
+	
+	if(!c){
 		return;
 	}
-    for (var i=0; i < items.length; i++) {
-        var file = destPath + '/' + items[i];
-        //console.log("Start: " + file);
-		
-		if(isValidItem(items[i])){
-			doCopy(file);
-		}
-
+	
+    // yes or y typed ? otherwise abort
+    if (c!='y' && c!='yes' && c!='s' &&c!='sim'){
+        console.log('Cancelado');
+        return;
     }
+    
+    if(args.verbose){
+		console.log('[VERBOSE] - ','args', args);
+	}
+	start();
+    
 });
+//

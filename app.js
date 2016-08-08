@@ -56,12 +56,10 @@ function isValidItem(item) {
 		return false;
 	}
 	
-	//if(!!~args.exclude.indexOf(item)){
 	if(arrayContains(args.exclude, item)){
 		return false;
 	}
 	if(args.include.length){
-		//if(!!~args.include.indexOf(item)){
 		if(arrayContains(args.include, item)){
 			return true;
 		}
@@ -72,15 +70,18 @@ function isValidItem(item) {
 };
 function start() {
 	fs.readdir(destPath, function(err, items) {
-		//console.log('items', items, err);
+		if(args.verbose){
+			console.log('[VERBOSE] - ','items', items, err);
+		}
 		if(!items){
 			console.log(err);
 			return;
 		}
 		for (var i=0; i < items.length; i++) {
 			var file = destPath + '/' + items[i];
-			//console.log("Start: " + file);
-			
+			if(args.verbose){
+				console.log('[VERBOSE] - ', 'Path: ' + file);
+			}
 			if(isValidItem(items[i])){
 				doCopy(file);
 			}

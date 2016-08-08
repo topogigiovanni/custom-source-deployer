@@ -16,7 +16,7 @@ var ncp = require('ncp').ncp;
 var fs = require('fs');
 var commandLineArgs = require('command-line-args');
 var _ = require('lodash');
-var appPaths = require('./path_config').path;
+var config = require('./config');
 var _prompt = require('prompt');
 
 var optionDefinitions = [
@@ -32,7 +32,7 @@ var _baseArgs = {
 	'verbose': false
 };
 var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
-
+var appPaths = config.path;
 var originPath = appPaths.origin;
 var destPath = args.prd ? appPaths.prd : appPaths.hlg;
 var _VALID_PATH_TERM = 'corecommerce';

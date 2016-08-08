@@ -1,4 +1,4 @@
 node_modules
-./path_config.js
-path_config.js
+./config.js
+config.js
 origin/*

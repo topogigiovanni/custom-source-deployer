@@ -4,14 +4,14 @@
  *  	-exclude (Array) Exclude stores
  *  	-prd (Boolean) Define environment path
  *
- *  USAGE: - node app -i corpoideal ciadoslivros -e biroshop -prd
+ *  USAGE: node app -i lojaa lojab -e lojac -prd
  *
  *  @Author: Giovanni Mansueto(topogigiovanni@gmail.com)
  *  @Company: DCG - Digital Commerce Group
  *
  */
 
-// vars
+//////////////////////// vars
 var ncp = require('ncp').ncp;
 var fs = require('fs');
 var commandLineArgs = require('command-line-args');
@@ -35,9 +35,10 @@ var args = _.assignIn(_baseArgs, commandLineArgs(optionDefinitions));
 
 var originPath = appPaths.origin;
 var destPath = args.prd ? appPaths.prd : appPaths.hlg;
-//
+var _VALID_PATH_TERM = 'corecommerce';
+//////////////////////// 
 
-// methods
+////////////////////////  methods
 function doCopy(destination) {
 	ncp(originPath, destination, function (err) {
 	 if (err) {
@@ -50,11 +51,15 @@ function arrayContains(items, term) {
 	return !!~_.findIndex(items, function(o) { return !!~term.indexOf(o)});
 }
 function isValidItem(item) {
+	// verifica se o path é uma loja mesmo
+	if(item.indexOf(_VALID_PATH_TERM) == -1){
+		return false;
+	}
+	
 	//if(!!~args.exclude.indexOf(item)){
 	if(arrayContains(args.exclude, item)){
 		return false;
 	}
-	
 	if(args.include.length){
 		//if(!!~args.include.indexOf(item)){
 		if(arrayContains(args.include, item)){
@@ -83,10 +88,14 @@ function start() {
 		}
 	});
 };
-//
+function buildConfirmMsg() {
+	var env = args.prd ? 'PRD' : 'HLG';
+	return 'Deseja executar a copia em '+ env +' (s/n)?';
+};
+//////////////////////// 
 
 
-// logic
+////////////////////////  logic
 // user confirmation required!
 _prompt.start();
 
@@ -103,13 +112,13 @@ _prompt.get({
         confirm: {
             // allow yes, no, y, n, YES, NO, Y, N as answer
             pattern: /^(yes|no|y|n|s|sim|nao|não)$/gi,
-            description: 'Deseja executar a copia(s/n)?',
+            description: buildConfirmMsg(),
             message: 'Digite s/n',
             required: true,
             default: 'n'
         }
     }
-}, function (err, result){
+}, function (err, result) {
     // transform to lower case
     var c = result.confirm.toLowerCase();
 	
@@ -129,4 +138,4 @@ _prompt.get({
 	start();
     
 });
-//
+//////////////////////// 

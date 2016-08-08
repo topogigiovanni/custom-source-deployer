@@ -11,14 +11,16 @@
  *
  */
 
-//////////////////////// vars
+//////////////////////// require libs
 var ncp = require('ncp').ncp;
 var fs = require('fs');
 var commandLineArgs = require('command-line-args');
 var _ = require('lodash');
 var config = require('./config');
 var _prompt = require('prompt');
+////////////////////////
 
+//////////////////////// vars
 var optionDefinitions = [
   { name: 'verbose', alias: 'v', type: Boolean },
   { name: 'prd', type: Boolean },
@@ -39,6 +41,7 @@ var _VALID_PATH_TERM = 'corecommerce';
 //////////////////////// 
 
 ////////////////////////  methods
+var verbose = console.log.bind(console, '[VERBOSE] ');
 function doCopy(destination) {
 	ncp(originPath, destination, function (err) {
 	 if (err) {
@@ -48,7 +51,7 @@ function doCopy(destination) {
 	});
 };
 function arrayContains(items, term) {
-	return !!~_.findIndex(items, function(o) { return !!~term.indexOf(o)});
+	return !!~_.findIndex(items, function(o) { return !!~term.indexOf(o); });
 }
 function isValidItem(item) {
 	// verifica se o path é uma loja mesmo
@@ -71,7 +74,7 @@ function isValidItem(item) {
 function start() {
 	fs.readdir(destPath, function(err, items) {
 		if(args.verbose){
-			console.log('[VERBOSE] - ','items', items, err);
+			verbose('items', items, err);
 		}
 		if(!items){
 			console.log(err);
@@ -80,7 +83,7 @@ function start() {
 		for (var i=0; i < items.length; i++) {
 			var file = destPath + '/' + items[i];
 			if(args.verbose){
-				console.log('[VERBOSE] - ', 'Path: ' + file);
+				verbose('Path: ' + file);
 			}
 			if(isValidItem(items[i])){
 				doCopy(file);
@@ -94,7 +97,6 @@ function buildConfirmMsg() {
 	return 'Deseja executar a copia em '+ env +' (s/n)?';
 };
 //////////////////////// 
-
 
 ////////////////////////  logic
 // user confirmation required!
@@ -134,7 +136,7 @@ _prompt.get({
     }
     
     if(args.verbose){
-		console.log('[VERBOSE] - ','args', args);
+		verbose('args', args);
 	}
 	start();
     

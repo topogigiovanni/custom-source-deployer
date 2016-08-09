@@ -2,9 +2,9 @@
  *  ARGS:
  *  	-include (Array) Include stores
  *  	-exclude (Array) Exclude stores
- *  	-prd (Boolean) Define environment path
+ *  	--prd (Boolean) Define environment path
  *
- *  USAGE: node app -i lojaa lojab -e lojac -prd
+ *  USAGE: node app -i lojaa lojab -e lojac --prd
  *
  *  @Author: Giovanni Mansueto(topogigiovanni@gmail.com)
  *  @Company: DCG - Digital Commerce Group
@@ -22,10 +22,10 @@ var _prompt = require('prompt');
 
 //////////////////////// vars
 var optionDefinitions = [
-  { name: 'verbose', alias: 'v', type: Boolean },
-  { name: 'prd', type: Boolean },
-  { name: 'include', alias: 'i' , type: String, multiple: true, defaultOption: true },
-  { name: 'exclude', alias: 'e' , type: String, multiple: true, defaultOption: false }
+	{ name: 'verbose', alias: 'v', type: Boolean },
+	{ name: 'prd', type: Boolean },
+	{ name: 'include', alias: 'i' , type: String, multiple: true, defaultOption: true },
+	{ name: 'exclude', alias: 'e' , type: String, multiple: true, defaultOption: false }
 ];
 var _baseArgs = { 
 	'include': [], 

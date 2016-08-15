@@ -1,7 +1,7 @@
 /**
  *  ARGS:
- *  	-include (Array) Include stores
- *  	-exclude (Array) Exclude stores
+ *  	--include (Array) Include stores
+ *  	--exclude (Array) Exclude stores
  *  	--prd (Boolean) Define environment path
  *
  *  USAGE: node app -i lojaa lojab -e lojac --prd

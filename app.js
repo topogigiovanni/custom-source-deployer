@@ -41,15 +41,20 @@ var _VALID_PATH_TERM = 'corecommerce';
 //////////////////////// 
 
 ////////////////////////  methods
-var verbose = console.log.bind(console, '[VERBOSE] ');
+var verbose = function(){};
+if(args.verbose){
+	verbose = console.log.bind(console, '[VERBOSE] ');
+}
 function doCopy(destination) {
+	console.log(destination);
+	console.log('-Iniciando copia...');
 	ncp(originPath, destination, function (err) {
 	 if (err) {
 	   return console.error(err);
 	 }
-	 console.log(destination + ' copiado!');
+	 console.log('-Copiado!');
 	});
-};
+}
 function arrayContains(items, term) {
 	return !!~_.findIndex(items, function(o) { return !!~term.indexOf(o); });
 }
@@ -70,32 +75,32 @@ function isValidItem(item) {
 	}else{
 		return true;
 	}
-};
+}
 function start() {
 	fs.readdir(destPath, function(err, items) {
-		if(args.verbose){
-			verbose('items', items, err);
-		}
+		
+		verbose('items', items, err);
+		
 		if(!items){
 			console.log(err);
 			return;
 		}
 		for (var i=0; i < items.length; i++) {
 			var file = destPath + '/' + items[i];
-			if(args.verbose){
-				verbose('Path: ' + file);
-			}
+			
+			verbose('Path: ' + file);
+			
 			if(isValidItem(items[i])){
 				doCopy(file);
 			}
 
 		}
 	});
-};
+}
 function buildConfirmMsg() {
 	var env = args.prd ? 'PRD' : 'HLG';
 	return 'Deseja executar a copia em '+ env +' (s/n)?';
-};
+}
 //////////////////////// 
 
 ////////////////////////  logic
@@ -135,9 +140,8 @@ _prompt.get({
         return;
     }
     
-    if(args.verbose){
-		verbose('args', args);
-	}
+    verbose('args', args);
+	
 	start();
     
 });

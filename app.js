@@ -46,13 +46,12 @@ if(args.verbose){
 	verbose = console.log.bind(console, '[VERBOSE] ');
 }
 function doCopy(destination) {
-	console.log(destination);
-	console.log('-Iniciando copia...');
+
 	ncp(originPath, destination, function (err) {
-	 if (err) {
-	   return console.error(err);
-	 }
-	 console.log('-Copiado!');
+		if (err) {
+			return console.error(err);
+		}
+		console.log(destination + ' Copiado!');
 	});
 }
 function arrayContains(items, term) {

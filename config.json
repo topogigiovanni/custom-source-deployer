@@ -1,0 +1,19 @@
+{
+    "remote" : {
+		"PRD": "\/\/10.10.219.112/coreVol/Applications/ezstore.net/custom",
+    	"HLG": "H:",
+    	"TESTE": "D:/TESTE"
+    },
+    "origin": [
+        "./origin",
+        "D:/Projects/Core.Dev/code/EZ.Store.Custom"
+    ],
+    "resources": {
+        "Widgets":"./Content/Widgets",
+        "Themes":"./Content/Themes"
+    },
+    "blacklist": [
+        "!**/*.zip",
+        "!./**/node_modules"
+    ]
+}

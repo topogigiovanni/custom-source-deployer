@@ -42,7 +42,7 @@ var _VALID_PATH_TERM = 'corecommerce';
 
 ////////////////////////  methods
 var verbose = function(){};
-if(args.verbose){
+if(args.verbose) {
 	verbose = console.log.bind(console, '[VERBOSE] ');
 }
 function doCopy(destination) {
@@ -63,7 +63,7 @@ function isValidItem(item) {
 		return false;
 	}
 	
-	if(arrayContains(args.exclude, item)){
+	if(args.exclude.length && arrayContains(args.exclude, item)){
 		return false;
 	}
 	if(args.include.length){

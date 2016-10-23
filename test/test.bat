@@ -13,10 +13,8 @@ FOR /f "delims=" %%i IN ( ' dir /ad/b "%destroot%"' ) DO (
 		REM robocopy ".\origin" "%destroot%\%%i" /IS /s 
 		ECHO "copiado em %%i" 
 	)
-   REM set AntiVirus1="adobe"
    
 )
 
-REM echo %AntiVirus1% found
 
 pause

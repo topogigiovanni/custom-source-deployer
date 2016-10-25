@@ -1,0 +1,14 @@
+type:     Widgets
+origin:   D:/Projects/Core.Dev/code/EZ.Store.Custom
+query:    
+selected: 
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/browsing.[36m[40maucti[49m[39mon
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/browsing.[36m[40maucti[49m[39mon.list
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/product.[36m[40maucti[49m[39mon.bid.button
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/product.[36m[40maucti[49m[39mon.bid.list
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/product.[36m[40maucti[49m[39mon.countdown
+  - D:/Projects/Core.Dev/code/EZ.Store.Custom/Content/Widgets/product.[36m[40maucti[49m[39mon.information
+env:      TESTE
+clients: 
+  - D:\TESTE\reference.hlg.corecommerce.com.br
+confirm:  true

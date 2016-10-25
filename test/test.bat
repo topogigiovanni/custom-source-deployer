@@ -6,6 +6,7 @@ REM http://stackoverflow.com/questions/7425360/batch-file-to-search-for-a-string
 
 ::variables
 SET isDebug=1
+SET isLogger=1
 SET destroot=.\dest
 SET isValid=1
 
@@ -44,15 +45,15 @@ GOTO Eos
 	SETLOCAL EnableDelayedExpansion
 	FOR /f "delims=" %%i IN ( ' dir /ad/b "%destroot%"' ) DO (
 		SET %1=0
-		call :Logger "fst isValidpri %isValid% !%1!"
+		call :Debugger "fst isValidpri %isValid% !%1!"
 		SET "folder=%%i"
 		if /I NOT "!folder:corecommerce=!"=="!folder!" (
-			REM robocopy ".\origin" "%destroot%\%%i" /IS /s 
-			REM TODO: stop here
-			call :Logger "isValid =second= %isValid% !isValid!"
+			
+			call :Debugger "isValid =second= %isValid% !isValid!"
 			call :EvaluateParam isValid %%i
-			call :Logger "isValid =third= %isValid% !isValid!"
+			call :Debugger "isValid =third= %isValid% !isValid!"
 			if "!isValid!"=="1" (
+				robocopy ".\origin" "%destroot%\%%i" /IS /s 
 				ECHO copiado para %%i com sucesso!
 			)
 		)
@@ -62,14 +63,11 @@ GOTO Eos
 GOTO Eos
 
 :EvaluateParam
-	REM SET isValid=1
 	SET candidate=%2
 	call :EvaluateInclude isValid %candidate%
 	if "!isValid!"=="1" (
 		call :EvaluateExclude isValid %candidate%
 	) 
-	REM SET %1=%isValid%
-	REM SET %1=1
 GOTO Eos
 
 :EvaluateInclude
@@ -99,14 +97,11 @@ GOTO Eos
 	SET %3=0
 	FOR /f "tokens=1* delims= " %%a IN ("%list%") DO (
 		SET "_candidate=%2"
-		call :Logger "in for include %%a %%b %_candidate% !_candidate! %2"
+		call :Debugger "in for include %%a %%b %_candidate% !_candidate! %2"
 		if /I NOT "!_candidate:%%a%=!"=="!_candidate!" (
-		REM if /i not x%_candidate:%_folder%=%==x%_candidate%  (
-
 			SET __isValid=1
 			SET %3=1
-			REM call :sub %%a
-			call :Logger "find include %%a %%b %_candidate% !_candidate! %2"
+			call :Debugger "find include %%a %%b %_candidate% !_candidate! %2"
 			GOTO Eos
 		)
 		if not "%%b"=="" call :ParseInclude "%%b" %2 %3
@@ -122,13 +117,11 @@ GOTO Eos
 	SET %3=1
 	FOR /f "tokens=1* delims= " %%a IN ("%list%") DO (
 		SET "_candidate=%2"
-		call :Logger "logged in for exclude %%a %_candidate% !_candidate! %2"
+		call :Debugger "logged in for exclude %%a %_candidate% !_candidate! %2"
 		if /I NOT "!_candidate:%%a%=!"=="!_candidate!" (
-
 			SET __isValid=0
 			SET %3=0
-
-			call :Logger "logged %%a %_candidate% !_candidate! %2"
+			call :Debugger "logged %%a %_candidate% !_candidate! %2"
 			GOTO Eos
 		)
 		if not "%%b"=="" call :ParseExclude "%%b" %2 %3
@@ -140,8 +133,16 @@ GOTO Eos
 :Logger
 	SET log=%1
 	SET log=%log:"=%
-	if "%isDebug%"=="1" (
+	if "%isLogger%"=="1" (
 		ECHO [LOGGER] %log%
+	)
+GOTO Eos
+
+:Debugger
+	SET log=%1
+	SET log=%log:"=%
+	if "%isDebug%"=="1" (
+		ECHO [DEBUGGER] %log%
 	)
 GOTO Eos
 

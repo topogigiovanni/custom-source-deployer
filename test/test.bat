@@ -1,7 +1,9 @@
 @ECHO OFF
 SETLOCAL EnableDelayedExpansion
+
 ::references
 REM http://stackoverflow.com/questions/7425360/batch-file-to-search-for-a-string-within-directory-names
+
 ::variables
 SET isDebug=1
 SET destroot=.\dest
@@ -15,8 +17,6 @@ ECHO.
 CHOICE /C 12 /M "Escolha o ambiente:"
 
 :: Note - list ERRORLEVELS in decreasing order
-REM IF ERRORLEVEL 2 GOTO Prd
-REM IF ERRORLEVEL 1 GOTO Hlg
 IF ERRORLEVEL 2 call :Prd isValid
 IF ERRORLEVEL 1 call :Hlg isValid
 
@@ -37,21 +37,7 @@ GOTO Eos
 	set /p include=Incluir apenas(todas):
 	set /p exclude=Excluir apenas(nenhuma):
 
-	if "%include%"=="" (
-		REM ECHO "inclui todas"
-	) 
-	if NOT "%include%"=="" (
-		REM ECHO "%include%"
-	)
-
-	if "%exclude%"=="" (
-		REM ECHO "exclui nenhuma"
-	) 
-	if NOT "%exclude%"=="" (
-		REM ECHO "%exclude%"
-	)
 	call :Run isValid
-	
 GOTO Eos
 
 :Run
@@ -73,7 +59,7 @@ GOTO Eos
 	   
 	)
 	SET %1=6nive--out
-GOTO End
+GOTO Eos
 
 :EvaluateParam
 	REM SET isValid=1
@@ -127,7 +113,6 @@ GOTO Eos
 	)
 	
 	SET %3=%__isValid%
-
 GOTO Eos
 
 :ParseExclude
@@ -150,7 +135,6 @@ GOTO Eos
 	)
 	
 	SET %3=%__isValid%
-
 GOTO Eos
 
 :Logger

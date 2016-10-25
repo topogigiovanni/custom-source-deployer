@@ -8,6 +8,7 @@ REM http://stackoverflow.com/questions/7425360/batch-file-to-search-for-a-string
 SET isDebug=1
 SET isLogger=1
 SET destroot=.\dest
+SET origin=.\origin
 SET isValid=1
 
 CLS
@@ -21,7 +22,7 @@ CHOICE /C 12 /M "Escolha o ambiente:"
 IF ERRORLEVEL 2 call :Prd isValid
 IF ERRORLEVEL 1 call :Hlg isValid
 
-goto End
+GOTO End
 
 ::subroutines
 :Prd
@@ -53,13 +54,12 @@ GOTO Eos
 			call :EvaluateParam isValid %%i
 			call :Debugger "isValid =third= %isValid% !isValid!"
 			if "!isValid!"=="1" (
-				robocopy ".\origin" "%destroot%\%%i" /IS /s 
+				robocopy "%origin%" "%destroot%\%%i" /IS /s 
 				ECHO copiado para %%i com sucesso!
 			)
 		)
 	   
 	)
-	SET %1=6nive--out
 GOTO Eos
 
 :EvaluateParam

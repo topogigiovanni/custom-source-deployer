@@ -58,7 +58,7 @@ function arrayContains(items, term) {
 	return !!~_.findIndex(items, function(o) { return !!~term.indexOf(o); });
 }
 function isValidItem(item) {
-	// verifica se o path È uma loja mesmo
+	// verifica se o path √© uma loja mesmo
 	if(item.indexOf(_VALID_PATH_TERM) == -1){
 		return false;
 	}
@@ -118,7 +118,7 @@ _prompt.get({
         // setup the dialog
         confirm: {
             // allow yes, no, y, n, YES, NO, Y, N as answer
-            pattern: /^(yes|no|y|n|s|sim|nao|n„o)$/gi,
+            pattern: /^(yes|no|y|n|s|sim|nao|n√£o$/gi,
             description: buildConfirmMsg(),
             message: 'Digite s/n',
             required: true,

@@ -2,7 +2,8 @@
 REM http://stackoverflow.com/questions/2524928/dos-batch-iterate-through-a-delimited-string
 SETLOCAL EnableDelayedExpansion
 
-SET str=store1 store2 store3 store4 store5 store6
+REM SET str=store1 store2 store3 store4 store5 store6
+SET str=dnastore gstore gweb trello 
 
 set servers=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
 

@@ -75,7 +75,7 @@ GOTO Eos
 			call :EvaluateParam isValid %%i
 			ECHO isValid =third= %isValid% !isValid!
 			if "!isValid!"=="1" (
-				ECHO "copiado em %%i" 
+				ECHO "copiado em %%i com sucessoooooooooooooooooo" 
 			)
 		)
 	   
@@ -87,8 +87,8 @@ GOTO End
 	REM SET isValid=1
 	SET candidate=%2
 	call :EvaluateInclude isValid %candidate%
-	if "%isValid%"=="1" (
-		REM call :EvaluateExclude isValid %candidate%
+	if "!isValid!"=="1" (
+		call :EvaluateExclude isValid %candidate%
 	) 
 	REM SET %1=%isValid%
 	REM SET %1=1
@@ -100,7 +100,7 @@ GOTO Eos
 		SET %1=1
 	) 
 	if NOT "%include%"=="" (
-		call :ParseInclude %include% %candidate% isValid
+		call :ParseInclude "%include%" %2 isValid
 		REM set "%1=0"
 	)
 GOTO Eos
@@ -111,7 +111,7 @@ GOTO Eos
 		set %1=1
 	) 
 	if NOT "%exclude%"=="" (
-		call :ParseExclude %exclude% %candidate% %1
+		call :ParseExclude "%exclude%" %2 isValid
 		REM set "%1=0"
 	)
 GOTO Eos
@@ -123,18 +123,15 @@ GOTO Eos
 	SET %3=0
 	FOR /f "tokens=1* delims= " %%a IN ("%list%") DO (
 		SET "_candidate=%2"
-		SET "_folder=%%a"
-		REM SET %3=1
-		ECHO in for include %%a %_candidate% !_candidate! %2
+		ECHO in for include "%%a" "%%b" %_candidate% !_candidate! %2
 		if /I NOT "!_candidate:%%a%=!"=="!_candidate!" (
 		REM if /i not x%_candidate:%_folder%=%==x%_candidate%  (
-		
-		REM CALL SET _candidate|FINDSTR /b "_candidate="|FINDSTR /i !_folder! >nul
-		REM IF ERRORLEVEL 1 (
+
 			SET __isValid=1
 			SET %3=1
 			REM call :sub %%a
-			ECHO find include %%a %_candidate% !_candidate! %2
+			ECHO find include "%%a" "%%b" %_candidate% !_candidate! %2
+			GOTO Eos
 		)
 		if not "%%b"=="" call :ParseInclude "%%b" %2 %3
 	)
@@ -146,15 +143,18 @@ GOTO Eos
 :ParseExclude
 	SET list=%1
 	SET list=%list:"=%
-	SET __isValid=1;
+	SET __isValid=1
+	SET %3=1
 	FOR /f "tokens=1* delims= " %%a IN ("%list%") DO (
 		SET "_candidate=%2"
-		SET "_folder=%%a"
-		if /I NOT "!_candidate:%_folder%=!"=="!_candidate!" (
+		ECHO in for exclude %%a %_candidate% !_candidate! %2
+		if /I NOT "!_candidate:%%a%=!"=="!_candidate!" (
+
 			SET __isValid=0
-			REM SET "%3=0"
-			REM call :sub %%a
-			REM ECHO find include %_folder% %_candidate% %2
+			SET %3=0
+
+			ECHO find exclude %%a %_candidate% !_candidate! %2
+			GOTO Eos
 		)
 		if not "%%b"=="" call :ParseExclude "%%b" %2 %3
 	)

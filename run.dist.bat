@@ -5,20 +5,33 @@ SETLOCAL EnableDelayedExpansion
 REM http://stackoverflow.com/questions/7425360/batch-file-to-search-for-a-string-within-directory-names
 
 ::variables
-SET isDebug=1
-SET isLogger=1
-SET destroot=.\dest
+SET isDebug=0
+SET isLogger=0
+SET destroot=
 SET origin=.\origin
+SET pathHlg=\\xxx\coreVol\Applications\ezstore.net.hlg\custom
+SET pathPrd=\\xxx\coreVol\Applications\ezstore.net\custom
 SET isValid=1
+
+if "%pathHlg%"=="" (
+	ECHO Configure primeiro o path de destino HLG
+	GOTO End
+)
+if "%pathPrd%"=="" (
+	ECHO Configure primeiro o path de destino PRD
+	GOTO End
+)
 
 CLS
 ECHO 1.HGL
 ECHO 2.PRD
+ECHO 3.Sair
 ECHO.
 
-CHOICE /C 12 /M "Escolha o ambiente:"
+CHOICE /C 123 /M "Escolha o ambiente:"
 
 :: Note - list ERRORLEVELS in decreasing order
+IF ERRORLEVEL 3 GOTO Eos
 IF ERRORLEVEL 2 call :Prd isValid
 IF ERRORLEVEL 1 call :Hlg isValid
 
@@ -27,11 +40,13 @@ GOTO End
 ::subroutines
 :Prd
 	ECHO Deploy em PRD
+	SET destroot=%pathPrd%
 	call :DefineSettings isValid
 GOTO Eos
 
 :Hlg
 	ECHO Deploy em HLG
+	SET destroot=%pathHlg%
 	call :DefineSettings isValid
 GOTO Eos
 
@@ -46,13 +61,10 @@ GOTO Eos
 	SETLOCAL EnableDelayedExpansion
 	FOR /f "delims=" %%i IN ( ' dir /ad/b "%destroot%"' ) DO (
 		SET %1=0
-		call :Debugger "fst isValidpri %isValid% !%1!"
 		SET "folder=%%i"
 		if /I NOT "!folder:corecommerce=!"=="!folder!" (
 			
-			call :Debugger "isValid =second= %isValid% !isValid!"
 			call :EvaluateParam isValid %%i
-			call :Debugger "isValid =third= %isValid% !isValid!"
 			if "!isValid!"=="1" (
 				robocopy "%origin%" "%destroot%\%%i" /IS /s 
 				ECHO copiado para %%i com sucesso!
